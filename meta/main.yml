@@ -1,4 +1,5 @@
 galaxy_info:
+  description: Default configuration for the C.H.I.P. computer
   author: Nicholas E. Rabenau
   license: MIT
   min_ansible_version: 2.2
