@@ -2,5 +2,9 @@ galaxy_info:
   author: Nicholas E. Rabenau
   license: MIT
   min_ansible_version: 2.2
+  platforms:
+  - name: Debian
+    versions:
+    - all
   galaxy_tags:
     - chip
