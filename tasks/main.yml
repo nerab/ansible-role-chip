@@ -23,7 +23,7 @@
 
 - name: Copy the public key of the user who is running ansible to the remote machine
   authorized_key:
-    user: chip
+    user: "{{ ansible_user }}"
     key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
   tags: ssh
 
@@ -36,10 +36,10 @@
 
 - name: No stupid login message
   file:
-    path:  /home/chip/.hushlogin
+    path:  "/home/{{ ansible_user }}/.hushlogin"
     state: touch
-    owner: chip
-    group: chip
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
     mode:  "0755"
   tags: user
 
@@ -52,11 +52,18 @@
     mode: 0644
   tags: localization
 
-- name: Add the user 'chip' to the list of sudoers
+- name: Add the user '{{ ansible_user }}' to the list of sudoers
   copy:
     src: sudoers
-    dest: /etc/sudoers.d/chip
+    dest: "/etc/sudoers.d/{{ ansible_user }}"
     owner: root
     group: root
     mode: "0640"
   tags: user,security
+
+- name: Configure tmux
+  copy:
+    src: tmux.conf
+    dest: "/home/{{ ansible_user }}/.tmux.conf"
+    mode: 0644
+  tags: tmux
